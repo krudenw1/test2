@@ -462,11 +462,11 @@ async function pay(payname) {
             //document.querySelector("#allPointUseArea > spna")
             ////오케이 적용 부분 엘레멘트 텍스트 사용 일때까지 대기한후 함수 실행
             // say you want the first <p> in the DOM tree
-            var elm1 = document.querySelector("#allPointUseArea > spna");
+            var elm2 = document.querySelector("#allPointUseArea > spna");
             // attach the condition
             //waitForText(elm, '9,999', () => console.log('Text appears'));
             //서버가 못따라간다 딜레이넣어야함
-            waitForText(elm1, '사용', () => {
+            waitForText(elm2, '사용', () => {
                 setTimeout(function(){
                     payMethodClick01(payname);
                     $("input[id*='smileAgree']").prop('checked',true);
@@ -584,11 +584,11 @@ async function pay(payname) {
         //document.querySelector("#allPointUseArea > spna")
         ////오케이 적용 부분 엘레멘트 텍스트 사용 일때까지 대기한후 함수 실행
         // say you want the first <p> in the DOM tree
-        var elm = document.querySelector("#allPointUseArea > spna");
+        var elm4 = document.querySelector("#allPointUseArea > spna");
         // attach the condition
         //waitForText(elm, '9,999', () => console.log('Text appears'));
         //서버가 못따라간다 딜레이넣어야함
-        waitForText(elm, '사용', () => {
+        waitForText(elm4, '사용', () => {
             setTimeout(function(){
                 payMethodClick01(payname);
                 $("select[id*='cardCode']").val('14').prop("selected",true);
@@ -663,11 +663,11 @@ async function pay2(payname) {
         //document.querySelector("#allPointUseArea > spna")
         ////오케이 적용 부분 엘레멘트 텍스트 사용 일때까지 대기한후 함수 실행
         // say you want the first <p> in the DOM tree
-        var elm = document.querySelector("#allPointUseArea > spna");
+        var elm5 = document.querySelector("#allPointUseArea > spna");
         // attach the condition
         //waitForText(elm, '9,999', () => console.log('Text appears'));
         //서버가 못따라간다 딜레이넣어야함
-        waitForText(elm, '사용', () => {
+        waitForText(elm5, '사용', () => {
             setTimeout(function(){
                 $("[id*='pay_list_tab']").attr('style','display: block;');
                 //jQuery('#settleVanCode').val("0120");

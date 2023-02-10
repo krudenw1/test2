@@ -1,3 +1,14 @@
+// ==UserScript==
+// @name         드래곤볼코어함수
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        http://*/*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @grant        none
+// ==/UserScript==
+
 
 
 function waitForText(element, text, callback, freq) {
@@ -70,9 +81,9 @@ async function haha() {
             //로긴함수실행 알아서 비로그인시 로그인으로보냄
             //javascript:Login();
 
-		waitForKeyElements ("#recentGoodsImage", function(){javascript:Login('/display/detail/30117529');},true);
-		
-	     
+            waitForKeyElements ("#recentGoodsImage", function(){javascript:Login('/display/detail/30117529');},true);
+
+
         }
         //document.body.innerHTML
         //javascript:Login();
@@ -322,15 +333,17 @@ async function haha() {
         //window.location.href = 'https://'+url;
     }
 
-  
+
 }
 
 
- async function pay(payname) {
-        console.log(payname);
+async function pay(payname) {
+    console.log(payname);
 
-        if ( payname == 'tvpay' )
-        {
+    if ( payname == 'tvpay' )
+    {
+
+        waitForKeyElements ("#web_popup1 > button:nth-child(7)", function(){
             console.log(payname);
             hcLayer.show('layerOKPoint');
             document.getElementById("useOcbCardNo1").value = okcard1;
@@ -354,10 +367,18 @@ async function haha() {
                 jQuery("#ocbPointAmt").val(okpointsinse);
             }
             displayPrice();
-            //빠른속도를 위해 무작정 3초기달리는대신에 이거씀
-            //document.querySelector("#final_Payco > div.fi_button > button")
-            //결제버튼보일때
-            waitForKeyElements ("#final_Payco > div.fi_button > button", function(){
+        },true);
+
+
+        //document.querySelector("#allPointUseArea > spna")
+        ////오케이 적용 부분 엘레멘트 텍스트 사용 일때까지 대기한후 함수 실행
+        // say you want the first <p> in the DOM tree
+        var elm1 = document.querySelector("#allPointUseArea > spna");
+        // attach the condition
+        //waitForText(elm, '9,999', () => console.log('Text appears'));
+        //서버가 못따라간다 딜레이넣어야함
+        waitForText(elm1, '사용', () => {
+            setTimeout(function(){
                 $("[id*='pay_list_tab']").attr('style','display: block;');
                 //$("li[id*='easyPay']").click();
                 $('span:contains("간편결제")').click();
@@ -378,54 +399,52 @@ async function haha() {
                 $("input[id*='agreeChkPolicy']").prop('checked',true);
                 $("input[id*='agreelabel']").prop('checked',true);
                 $("input[id*='agreeMemPolicy']").prop('checked',true);
+            }, 500);
 
-            },true);
+        });
 
-            //document.querySelector("#final_Payco > div.fi_price > div.fi_p_con > div.price > em").textContent
+        //document.querySelector("#final_Payco > div.fi_price > div.fi_p_con > div.price > em").textContent
 
 
-            //빠른결제만 동의해제되서 다시한번더함
-            //setTimeout(function(){
+        //빠른결제만 동의해제되서 다시한번더함
+        //setTimeout(function(){
 
-            //$("input[id*='agreeChk']").attr('checked',true);
-            // $("input[id*='agreeChkPolicy']").attr('checked',true);
-            //$("input[id*='agreelabel']").attr('checked',true);
-            //$("input[id*='agreeMemPolicy']").attr('checked',true);
-            //$("input[id*='agreeChk']").click();
-            //$("input[id*='agreeChkPolicy']").click();
-            //$("input[id*='agreelabel']").click();
-            //$("input[id*='agreeMemPolicy']").click();
-            // $("input[id*='agreeChk']").prop('checked',true);
-            // $("input[id*='agreeChkPolicy']").prop('checked',true);
-            // $("input[id*='agreelabel']").prop('checked',true);
-            //  $("input[id*='agreeMemPolicy']").prop('checked',true);
-            //}, 4000);
-        }
-        else if ( payname == 'smilepay' )
+        //$("input[id*='agreeChk']").attr('checked',true);
+        // $("input[id*='agreeChkPolicy']").attr('checked',true);
+        //$("input[id*='agreelabel']").attr('checked',true);
+        //$("input[id*='agreeMemPolicy']").attr('checked',true);
+        //$("input[id*='agreeChk']").click();
+        //$("input[id*='agreeChkPolicy']").click();
+        //$("input[id*='agreelabel']").click();
+        //$("input[id*='agreeMemPolicy']").click();
+        // $("input[id*='agreeChk']").prop('checked',true);
+        // $("input[id*='agreeChkPolicy']").prop('checked',true);
+        // $("input[id*='agreelabel']").prop('checked',true);
+        //  $("input[id*='agreeMemPolicy']").prop('checked',true);
+        //}, 4000);
+    }
+    else if ( payname == 'smilepay' )
+    {
+
+        //스페는 포인트쓰는게다름
+        //컬쳐결제페이지
+        if (location.href.includes("display/detail/30116362"))
         {
 
+            waitForKeyElements ("#web_popup1 > button:nth-child(7)", function(){
+                payMethodClick01(payname);
+                $("input[id*='smileAgree']").prop('checked',true);
+                $("input[id*='agreeChkPolicy']").prop('checked',true);
+                $("input[id*='agreeGoodlabel_Smilepay']").click();
+                $("input[id*='agreeMemPolicy']").click();
+                orderSave('01');
+            },true);
 
+        }
+        else if (location.href.includes("display/detail/30117529"))
+        {
 
-
-            //스페는 포인트쓰는게다름
-            //컬쳐결제페이지
-            if (location.href.includes("display/detail/30116362"))
-            {
-
-                console.log(payname);
-                setTimeout(function(){
-                    payMethodClick01(payname);
-                    $("input[id*='smileAgree']").prop('checked',true);
-                    $("input[id*='agreeChkPolicy']").prop('checked',true);
-                    $("input[id*='agreeGoodlabel_Smilepay']").click();
-                    $("input[id*='agreeMemPolicy']").click();
-                    orderSave('01');
-                }, 2000);
-
-            }
-            else if (location.href.includes("display/detail/30117529"))
-            {
-
+            waitForKeyElements ("#web_popup1 > button:nth-child(7)", function(){
                 hcLayer.show('layerOKPoint');
                 document.getElementById("useOcbCardNo1").value = okcard1;
                 document.getElementById("useOcbCardNo2").value = okcard2;
@@ -438,6 +457,16 @@ async function haha() {
                 jQuery("#useOcbPointAmt").val(okpointsinse);
                 jQuery("#ocbPointAmt").val(okpointsinse);
                 displayPrice();
+            },true);
+
+            //document.querySelector("#allPointUseArea > spna")
+            ////오케이 적용 부분 엘레멘트 텍스트 사용 일때까지 대기한후 함수 실행
+            // say you want the first <p> in the DOM tree
+            var elm1 = document.querySelector("#allPointUseArea > spna");
+            // attach the condition
+            //waitForText(elm, '9,999', () => console.log('Text appears'));
+            //서버가 못따라간다 딜레이넣어야함
+            waitForText(elm1, '사용', () => {
                 setTimeout(function(){
                     payMethodClick01(payname);
                     $("input[id*='smileAgree']").prop('checked',true);
@@ -445,15 +474,21 @@ async function haha() {
                     $("input[id*='agreeGoodlabel_Smilepay']").click();
                     $("input[id*='agreeMemPolicy']").click();
                     orderSave('01');
-                }, 3000);
+                }, 500);
 
-            }
+            });
+
+
         }
-        else if ( payname == 'card' )
-        {
+    }
+    else if ( payname == 'card' )
+    {
+
+        //document.querySelector("#web_popup1 > button:nth-child(7)")
+        waitForKeyElements ("#web_popup1 > button:nth-child(7)", function(){
             //전역변수 카드체크1
             //await GM.setValue("checkKCP", "1"); //이거주석끄면 무한온
-            let kcpvalue1 = await GM.getValue("checkKCP", "0")
+            let kcpvalue1 = GM.getValue("checkKCP", "0")
             console.log('ㅅㅂ좀'+kcpvalue1);
             //localStorage.setItem("checkKCP", "1");
             //console.log('체크?'+localStorage.getItem("checkKCP"));
@@ -479,6 +514,20 @@ async function haha() {
                 jQuery("#ocbPointAmt").val(okpointsinse);
             }
             displayPrice();
+
+
+
+        },true);
+
+
+        //document.querySelector("#allPointUseArea > spna")
+        ////오케이 적용 부분 엘레멘트 텍스트 사용 일때까지 대기한후 함수 실행
+        // say you want the first <p> in the DOM tree
+        var elm = document.querySelector("#allPointUseArea > spna");
+        // attach the condition
+        //waitForText(elm, '9,999', () => console.log('Text appears'));
+        //서버가 못따라간다 딜레이넣어야함
+        waitForText(elm, '사용', () => {
             setTimeout(function(){
                 $("[id*='pay_list_tab']").attr('style','display: block;');
                 //jQuery('#settleVanCode').val("0120");
@@ -494,164 +543,167 @@ async function haha() {
                 $("input[id*='agreelabel']").prop('checked',true);
                 $("input[id*='agreeMemPolicy']").prop('checked',true);
                 orderSave('01');
-            }, 3000);
-        }
-        else
-        {
-            //document.querySelector("#web_popup1 > button:nth-child(7)")
-            waitForKeyElements ("#web_popup1 > button:nth-child(7)", function(){
-                //ok포인트넣어져서 '사용' 텍스트써져있는거체크
-                hcLayer.show('layerOKPoint');
-                document.getElementById("useOcbCardNo1").value = okcard1;
-                document.getElementById("useOcbCardNo2").value = okcard2;
-                document.getElementById("useOcbCardNo3").value = okcard3;
-                document.getElementById("useOcbCardNo4").value = okcard4;
-                $('#allCheckUseOcbPoint').prop('checked',true);
-                document.getElementById("popUseOcbCardPasswd").value = okpassword;
-                checkOcbPoint();
-                document.getElementById("ocbPointAmt").click();
-                //컬쳐결제페이지
-                if (location.href.includes("display/detail/30116362"))
-                {
-                    jQuery("#useOcbPointAmt").val(okpointculture);
-                    jQuery("#ocbPointAmt").val(okpointculture);
-                }
-                //신세계결제페이지
-                else if (location.href.includes("display/detail/30117529"))
-                {
-                    jQuery("#useOcbPointAmt").val(okpointsinse);
-                    jQuery("#ocbPointAmt").val(okpointsinse);
-                }
-                displayPrice();
+            }, 500);
 
+        });
 
-
-            },true);
-
-
-            //document.querySelector("#allPointUseArea > spna")
-            ////오케이 적용 부분 엘레멘트 텍스트 사용 일때까지 대기한후 함수 실행
-            // say you want the first <p> in the DOM tree
-            var elm = document.querySelector("#allPointUseArea > spna");
-            // attach the condition
-            //waitForText(elm, '9,999', () => console.log('Text appears'));
-            //서버가 못따라간다 딜레이넣어야함
-            waitForText(elm, '사용', () => {
-                setTimeout(function(){
-                    payMethodClick01(payname);
-                    $("select[id*='cardCode']").val('14').prop("selected",true);
-                    $("select[id*='cardquota']").val('00').prop("selected",true);
-                    $("input[id*='agreeChk']").prop('checked',true);
-                    $("input[id*='agreeChkPolicy']").prop('checked',true);
-                    $("input[id*='agreelabel']").prop('checked',true);
-                    $("input[id*='agreeMemPolicy']").prop('checked',true);
-                    orderSave('01');
-                }, 500);
-
-            });
-
-
-
-
-
-
-
-
-
-        }
     }
-
-    async function pay2(payname) {
-        console.log(payname);
-
-        if ( payname == 'kcp' )
-        {
-
-
-            //document.querySelector("#web_popup1 > button:nth-child(7)")
-            waitForKeyElements ("#web_popup1 > button:nth-child(7)", function(){
-                //팝업뜨면 새로고침 되려나모르겠다..
-
-                //window.alert = () => location.reload();
-                //전역변수 카드체크1
-                //waitfor안이라 await없어도되나봄?
-                //await GM.setValue("checkKCP", "1"); //이거주석끄면 무한온
-                //let kcpvalue1 = await GM.getValue("checkKCP", "0")
-
-                GM.setValue("checkKCP", "1"); //이거주석끄면 무한온
-                let kcpvalue1 = GM.getValue("checkKCP", "0")
-                console.log('ㅅㅂ좀'+kcpvalue1);
-                //localStorage.setItem("checkKCP", "1");
-                //console.log('체크?'+localStorage.getItem("checkKCP"));
-                hcLayer.show('layerOKPoint');
-                document.getElementById("useOcbCardNo1").value = okcard1;
-                document.getElementById("useOcbCardNo2").value = okcard2;
-                document.getElementById("useOcbCardNo3").value = okcard3;
-                document.getElementById("useOcbCardNo4").value = okcard4;
-                $('#allCheckUseOcbPoint').prop('checked',true);
-                document.getElementById("popUseOcbCardPasswd").value = okpassword;
-                checkOcbPoint();
-                document.getElementById("ocbPointAmt").click();
-                //컬쳐결제페이지
-                if (location.href.includes("display/detail/30116362"))
-                {
-                    jQuery("#useOcbPointAmt").val(okpointculture);
-                    jQuery("#ocbPointAmt").val(okpointculture);
-                }
-                //신세계결제페이지
-                else if (location.href.includes("display/detail/30117529"))
-                {
-                    jQuery("#useOcbPointAmt").val(okpointsinse);
-                    jQuery("#ocbPointAmt").val(okpointsinse);
-                }
-                displayPrice();
+    else
+    {
+        //document.querySelector("#web_popup1 > button:nth-child(7)")
+        waitForKeyElements ("#web_popup1 > button:nth-child(7)", function(){
+            //ok포인트넣어져서 '사용' 텍스트써져있는거체크
+            hcLayer.show('layerOKPoint');
+            document.getElementById("useOcbCardNo1").value = okcard1;
+            document.getElementById("useOcbCardNo2").value = okcard2;
+            document.getElementById("useOcbCardNo3").value = okcard3;
+            document.getElementById("useOcbCardNo4").value = okcard4;
+            $('#allCheckUseOcbPoint').prop('checked',true);
+            document.getElementById("popUseOcbCardPasswd").value = okpassword;
+            checkOcbPoint();
+            document.getElementById("ocbPointAmt").click();
+            //컬쳐결제페이지
+            if (location.href.includes("display/detail/30116362"))
+            {
+                jQuery("#useOcbPointAmt").val(okpointculture);
+                jQuery("#ocbPointAmt").val(okpointculture);
+            }
+            //신세계결제페이지
+            else if (location.href.includes("display/detail/30117529"))
+            {
+                jQuery("#useOcbPointAmt").val(okpointsinse);
+                jQuery("#ocbPointAmt").val(okpointsinse);
+            }
+            displayPrice();
 
 
 
-            },true);
+        },true);
 
 
+        //document.querySelector("#allPointUseArea > spna")
+        ////오케이 적용 부분 엘레멘트 텍스트 사용 일때까지 대기한후 함수 실행
+        // say you want the first <p> in the DOM tree
+        var elm = document.querySelector("#allPointUseArea > spna");
+        // attach the condition
+        //waitForText(elm, '9,999', () => console.log('Text appears'));
+        //서버가 못따라간다 딜레이넣어야함
+        waitForText(elm, '사용', () => {
+            setTimeout(function(){
+                payMethodClick01(payname);
+                $("select[id*='cardCode']").val('14').prop("selected",true);
+                $("select[id*='cardquota']").val('00').prop("selected",true);
+                $("input[id*='agreeChk']").prop('checked',true);
+                $("input[id*='agreeChkPolicy']").prop('checked',true);
+                $("input[id*='agreelabel']").prop('checked',true);
+                $("input[id*='agreeMemPolicy']").prop('checked',true);
+                orderSave('01');
+            }, 500);
+
+        });
 
 
+    }
+}
+
+async function pay2(payname) {
+    console.log(payname);
+
+    if ( payname == 'kcp' )
+    {
 
 
-            //document.querySelector("#allPointUseArea > spna")
-            ////오케이 적용 부분 엘레멘트 텍스트 사용 일때까지 대기한후 함수 실행
-            // say you want the first <p> in the DOM tree
-            var elm = document.querySelector("#allPointUseArea > spna");
-            // attach the condition
-            //waitForText(elm, '9,999', () => console.log('Text appears'));
-            //서버가 못따라간다 딜레이넣어야함
-            waitForText(elm, '사용', () => {
-                setTimeout(function(){
-                    $("[id*='pay_list_tab']").attr('style','display: block;');
-                    //jQuery('#settleVanCode').val("0120");
-                    //jQuery('#settleGbName').empty().append("신용");
-                    //jQuery("#payMethodCode").val("1");
-                    $("a[href*='javascript:payMethodClick01']").click();
-                    //document.querySelector("#pay_list_tab2 > ul.pay_tab.tab_ui.new.no_cash > li.credit_card > a > span");
-                    payMethodClick01('card');
-                    $("select[id*='cardCode']").val('14').prop("selected",true);
-                    $("select[id*='cardquota']").val('00').prop("selected",true);
-                    $("input[id*='agreeChk']").prop('checked',true);
-                    $("input[id*='agreeChkPolicy']").prop('checked',true);
-                    $("input[id*='agreelabel']").prop('checked',true);
-                    $("input[id*='agreeMemPolicy']").prop('checked',true);
-                    orderSave('01');
-                }, 500);
-            });
-
-
-
-
-        }
-        else if ( payname == 'toss' )
-        {
+        //document.querySelector("#web_popup1 > button:nth-child(7)")
+        waitForKeyElements ("#web_popup1 > button:nth-child(7)", function(){
             //팝업뜨면 새로고침 되려나모르겠다..
 
             //window.alert = () => location.reload();
             //전역변수 카드체크1
-            await GM.setValue("checkTOSS", "1"); //이거주석끄면 무한온
+            //waitfor안이라 await없어도되나봄?
+            //await GM.setValue("checkKCP", "1"); //이거주석끄면 무한온
+            //let kcpvalue1 = await GM.getValue("checkKCP", "0")
+
+            GM.setValue("checkKCP", "1"); //이거주석끄면 무한온
+            let kcpvalue1 = GM.getValue("checkKCP", "0")
+            console.log('ㅅㅂ좀'+kcpvalue1);
+            //localStorage.setItem("checkKCP", "1");
+            //console.log('체크?'+localStorage.getItem("checkKCP"));
+            hcLayer.show('layerOKPoint');
+            document.getElementById("useOcbCardNo1").value = okcard1;
+            document.getElementById("useOcbCardNo2").value = okcard2;
+            document.getElementById("useOcbCardNo3").value = okcard3;
+            document.getElementById("useOcbCardNo4").value = okcard4;
+            $('#allCheckUseOcbPoint').prop('checked',true);
+            document.getElementById("popUseOcbCardPasswd").value = okpassword;
+            checkOcbPoint();
+            document.getElementById("ocbPointAmt").click();
+            //컬쳐결제페이지
+            if (location.href.includes("display/detail/30116362"))
+            {
+                jQuery("#useOcbPointAmt").val(okpointculture);
+                jQuery("#ocbPointAmt").val(okpointculture);
+            }
+            //신세계결제페이지
+            else if (location.href.includes("display/detail/30117529"))
+            {
+                jQuery("#useOcbPointAmt").val(okpointsinse);
+                jQuery("#ocbPointAmt").val(okpointsinse);
+            }
+            displayPrice();
+
+
+
+        },true);
+
+
+
+
+
+
+        //document.querySelector("#allPointUseArea > spna")
+        ////오케이 적용 부분 엘레멘트 텍스트 사용 일때까지 대기한후 함수 실행
+        // say you want the first <p> in the DOM tree
+        var elm = document.querySelector("#allPointUseArea > spna");
+        // attach the condition
+        //waitForText(elm, '9,999', () => console.log('Text appears'));
+        //서버가 못따라간다 딜레이넣어야함
+        waitForText(elm, '사용', () => {
+            setTimeout(function(){
+                $("[id*='pay_list_tab']").attr('style','display: block;');
+                //jQuery('#settleVanCode').val("0120");
+                //jQuery('#settleGbName').empty().append("신용");
+                //jQuery("#payMethodCode").val("1");
+                $("a[href*='javascript:payMethodClick01']").click();
+                //document.querySelector("#pay_list_tab2 > ul.pay_tab.tab_ui.new.no_cash > li.credit_card > a > span");
+                payMethodClick01('card');
+                $("select[id*='cardCode']").val('14').prop("selected",true);
+                $("select[id*='cardquota']").val('00').prop("selected",true);
+                $("input[id*='agreeChk']").prop('checked',true);
+                $("input[id*='agreeChkPolicy']").prop('checked',true);
+                $("input[id*='agreelabel']").prop('checked',true);
+                $("input[id*='agreeMemPolicy']").prop('checked',true);
+                orderSave('01');
+            }, 500);
+        });
+
+
+
+
+    }
+    else if ( payname == 'toss' )
+    {
+
+        //document.querySelector("#web_popup1 > button:nth-child(7)")
+        waitForKeyElements ("#web_popup1 > button:nth-child(7)", function(){
+            //팝업뜨면 새로고침 되려나모르겠다..
+
+            //window.alert = () => location.reload();
+            //전역변수 카드체크1
+            //waitfor안이라 await없어도되나봄?
+            //await GM.setValue("checkKCP", "1"); //이거주석끄면 무한온
+            //let kcpvalue1 = await GM.getValue("checkKCP", "0")
+
+            GM.setValue("checkTOSS", "1"); //이거주석끄면 무한온
 
             //let kcpvalue1 = await GM.getValue("checkKCP", "0")
             //console.log('ㅅㅂ좀'+kcpvalue1);
@@ -679,7 +731,20 @@ async function haha() {
                 jQuery("#ocbPointAmt").val(okpointsinse);
             }
             displayPrice();
+
+        },true);
+
+
+        //document.querySelector("#allPointUseArea > spna")
+        ////오케이 적용 부분 엘레멘트 텍스트 사용 일때까지 대기한후 함수 실행
+        // say you want the first <p> in the DOM tree
+        var elm1 = document.querySelector("#allPointUseArea > spna");
+        // attach the condition
+        //waitForText(elm, '9,999', () => console.log('Text appears'));
+        //서버가 못따라간다 딜레이넣어야함
+        waitForText(elm1, '사용', () => {
             setTimeout(function(){
+
                 $("[id*='pay_list_tab']").attr('style','display: block;');
                 //jQuery('#settleVanCode').val("0120");
                 //jQuery('#settleGbName').empty().append("신용");
@@ -694,29 +759,29 @@ async function haha() {
                 $("input[id*='agreelabel']").prop('checked',true);
                 $("input[id*='agreeMemPolicy']").prop('checked',true);
 
-
-            }, 3000);
-
-        }
+            }, 500);
+        });
 
     }
 
-    async function relogin(aa)
-    {
-        window.location.href = 'https://m.shinsegaetvshopping.com/member/logout';
+}
 
-        if ( window.location == 'https://m.shinsegaetvshopping.com/member/logout' ) {
-            window.location.href='https://m.shinsegaetvshopping.com/member/login';
-        }
+async function relogin(aa)
+{
+    window.location.href = 'https://m.shinsegaetvshopping.com/member/logout';
 
-
-        //window.location.replace("https://m.shinsegaetvshopping.com/member/login");
-
-
-
-
-
-
-
+    if ( window.location == 'https://m.shinsegaetvshopping.com/member/logout' ) {
+        window.location.href='https://m.shinsegaetvshopping.com/member/login';
     }
-	
+
+
+    //window.location.replace("https://m.shinsegaetvshopping.com/member/login");
+
+
+
+
+
+
+
+}
+

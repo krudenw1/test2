@@ -758,7 +758,7 @@ async function pay2(payname) {
                 $("input[id*='agreeChkPolicy']").prop('checked',true);
                 $("input[id*='agreelabel']").prop('checked',true);
                 $("input[id*='agreeMemPolicy']").prop('checked',true);
-
+orderSave('01');
             }, 500);
         });
 

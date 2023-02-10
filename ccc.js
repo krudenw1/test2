@@ -69,7 +69,10 @@ async function haha() {
             //로그아웃하면 홈으로보냄
             //로긴함수실행 알아서 비로그인시 로그인으로보냄
             //javascript:Login();
-	     javascript:Login('/display/detail/30117529');
+
+		waitForKeyElements ("#recentGoodsImage", function(){javascript:Login('/display/detail/30117529');},true);
+		
+	     
         }
         //document.body.innerHTML
         //javascript:Login();
